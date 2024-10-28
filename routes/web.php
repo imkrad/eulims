@@ -19,6 +19,8 @@ Route::middleware(['2fa','auth','verified','is_active','menu'])->group(function 
     Route::resource('/quotations', App\Http\Controllers\Operation\QuotationController::class);
     Route::resource('/services', App\Http\Controllers\Operation\ServiceController::class);
     Route::resource('/tsrs', App\Http\Controllers\Operation\TsrController::class);
+    Route::resource('/samples', App\Http\Controllers\Operation\SampleController::class);
+    Route::resource('/analyses', App\Http\Controllers\Operation\AnalysisController::class);
 });
 
 require __DIR__.'/auth.php';

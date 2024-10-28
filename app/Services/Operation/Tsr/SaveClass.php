@@ -2,14 +2,22 @@
 
 namespace App\Services\Operation\Tsr;
 
-use App\Models\Tsr;
 use Hashids\Hashids;
+use App\Models\Tsr;
+use App\Models\Configuration;
 
 class SaveClass
 {
+    public function __construct()
+    {
+        $this->laboratory = (\Auth::user()->myrole) ? \Auth::user()->myrole->laboratory_id : null;
+        $this->configuration = Configuration::with('laboratory.address')->where('laboratory_id',$this->laboratory)->first();
+    }
+
     public function save($request){
         $data = Tsr::create(array_merge($request->all(),[
             'status_id' => 1,
+            'purpose_id' => $request->purpose_id,
             'laboratory_id' => $this->laboratory,
             'customer_id' => $request->customer['value'],
             'conforme_id' => $request->conforme['value'],
