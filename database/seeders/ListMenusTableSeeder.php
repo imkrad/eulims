@@ -15,7 +15,7 @@ class ListMenusTableSeeder extends Seeder
     {
         
 
-        \DB::table('list_menus')->delete();
+        \DB::table('list_menus')->truncate();
         
         \DB::table('list_menus')->insert(array (
             0 => 
@@ -133,10 +133,10 @@ class ListMenusTableSeeder extends Seeder
             8 => 
             array (
                 'id' => 9,
-                'name' => 'Agencies',
+                'name' => 'Laboratories',
                 'icon' => 'ri-hotel-fill',
-                'route' => '/references/agencies',
-                'path' => 'Modules/References/Agencies',
+                'route' => '/references/laboratories',
+                'path' => 'Modules/References/Laboratories',
                 'group' => 'Menu',
                 'module' => 'Reference',
                 'order' => 2,
@@ -147,10 +147,10 @@ class ListMenusTableSeeder extends Seeder
             9 => 
             array (
                 'id' => 10,
-                'name' => 'Privileges',
+                'name' => 'Discounts',
                 'icon' => 'ri-hand-coin-fill',
-                'route' => '/references/privileges',
-                'path' => 'Modules/References/Privileges',
+                'route' => '/references/discounts',
+                'path' => 'Modules/References/Discounts',
                 'group' => 'Menu',
                 'module' => 'Reference',
                 'order' => 3,
@@ -161,10 +161,10 @@ class ListMenusTableSeeder extends Seeder
             10 => 
             array (
                 'id' => 11,
-                'name' => 'Programs',
+                'name' => 'Industries',
                 'icon' => 'ri-bill-fill',
-                'route' => '/references/programs',
-                'path' => 'Modules/References/Programs',
+                'route' => '/references/industries',
+                'path' => 'Modules/References/Industries',
                 'group' => 'Menu',
                 'module' => 'Reference',
                 'order' => 4,
@@ -273,7 +273,7 @@ class ListMenusTableSeeder extends Seeder
             18 => 
             array (
                 'id' => 19,
-                'name' => 'Schools',
+                'name' => 'Agency Type',
                 'icon' => NULL,
                 'route' => '/references/schools',
                 'path' => '/references/schools',
@@ -287,7 +287,7 @@ class ListMenusTableSeeder extends Seeder
             19 => 
             array (
                 'id' => 20,
-                'name' => 'Courses',
+                'name' => 'Discount',
                 'icon' => NULL,
                 'route' => '/references/courses',
                 'path' => '/references/courses',
@@ -301,7 +301,7 @@ class ListMenusTableSeeder extends Seeder
             20 => 
             array (
                 'id' => 21,
-                'name' => 'Category',
+                'name' => 'Payment Method',
                 'icon' => NULL,
                 'route' => '/references/categories',
                 'path' => '/references/categories',
@@ -310,6 +310,104 @@ class ListMenusTableSeeder extends Seeder
                 'order' => 3,
                 'has_child' => 0,
                 'is_mother' => 0,
+                'is_active' => 1,
+            ),
+            21 => 
+            array (
+                'id' => 43,
+                'name' => 'Dashboard',
+                'icon' => 'ri-apps-line',
+                'route' => '/dashboard',
+                'path' => 'Modules/Operation/Dashboard',
+                'group' => 'Menu',
+                'module' => 'Operation',
+                'order' => 1,
+                'has_child' => 0,
+                'is_mother' => 1,
+                'is_active' => 1,
+            ),
+            22 => 
+            array (
+                'id' => 44,
+                'name' => 'Customers',
+                'icon' => 'ri-team-fill',
+                'route' => '/customers',
+                'path' => 'Modules/Operation/Customers',
+                'group' => 'Menu1',
+                'module' => 'Operation',
+                'order' => 1,
+                'has_child' => 0,
+                'is_mother' => 1,
+                'is_active' => 1,
+            ),
+            23 => 
+            array (
+                'id' => 45,
+                'name' => 'Quotations',
+                'icon' => 'ri-price-tag-3-fill',
+                'route' => '/quotations',
+                'path' => 'Modules/Operation/Quotations',
+                'group' => 'Menu2',
+                'module' => 'Operation',
+                'order' => 1,
+                'has_child' => 0,
+                'is_mother' => 1,
+                'is_active' => 1,
+            ),
+            24 => 
+            array (
+                'id' => 46,
+                'name' => 'TS Requests',
+                'icon' => 'ri-hand-coin-fill',
+                'route' => '/tsrs',
+                'path' => 'Modules/Operation/Tsrs',
+                'group' => 'Menu2',
+                'module' => 'Operation',
+                'order' => 2,
+                'has_child' => 0,
+                'is_mother' => 1,
+                'is_active' => 1,
+            ),
+            25 => 
+            array (
+                'id' => 47,
+                'name' => 'Reports',
+                'icon' => 'ri-file-text-fill',
+                'route' => '/reports',
+                'path' => 'Modules/Operation/Reports',
+                'group' => 'Menu3',
+                'module' => 'Operation',
+                'order' => 1,
+                'has_child' => 0,
+                'is_mother' => 1,
+                'is_active' => 1,
+            ),
+            26 => 
+            array (
+                'id' => 48,
+                'name' => 'Calender',
+                'icon' => 'ri-calendar-fill',
+                'route' => '/calendars',
+                'path' => 'Modules/Operation/Calendars',
+                'group' => 'Menu2',
+                'module' => 'Operation',
+                'order' => 3,
+                'has_child' => 0,
+                'is_mother' => 1,
+                'is_active' => 1,
+            ),
+            27 => 
+            array (
+                'id' => 49,
+                'name' => 'Test Services',
+                'icon' => 'ri-flask-fill',
+                'route' => '/services',
+                'path' => 'Modules/Operation/Services',
+                'group' => 'Menu1',
+                'module' => 'Operation',
+                'order' => 2,
+                'has_child' => 0,
+                'is_mother' => 1,
                 'is_active' => 1,
             ),
         ));
