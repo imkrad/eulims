@@ -15,7 +15,7 @@ class ListMenusTableSeeder extends Seeder
     {
         
 
-        \DB::table('list_menus')->truncate();
+        \DB::table('list_menus')->delete();
         
         \DB::table('list_menus')->insert(array (
             0 => 

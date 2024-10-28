@@ -17,6 +17,7 @@ class Tsr extends Model
         'laboratory_id',
         'laboratory_type',
         'status_id',
+        'purpose_id',
         'customer_id',
         'conforme_id',
         'received_by',
@@ -59,6 +60,11 @@ class Tsr extends Model
     public function status()
     {
         return $this->belongsTo('App\Models\ListStatus', 'status_id', 'id');
+    }
+
+    public function purpose()
+    {
+        return $this->belongsTo('App\Models\ListDropdown', 'purpose_id', 'id');
     }
 
     public function customer()

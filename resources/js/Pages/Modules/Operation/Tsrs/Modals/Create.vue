@@ -33,7 +33,7 @@
                 </BCol>
                 <BCol lg="6" v-if="(form.conforme) ? true : false" class="mt-1">
                     <InputLabel for="due" value="Mobile No" :message="form.errors.conforme"/>
-                    <TextInput v-model="form.conforme.contact_no" type="text" class="form-control" autofocus placeholder="Please enter name" required :class="{ 'is-invalid': form.errors.conforme }" @input="handleInput('conforme')" :light="true"/>
+                    <TextInput v-model="form.conforme.contact_no" type="text" class="form-control" placeholder="Please enter name" @input="handleInput('conforme')" :light="true"/>
                 </BCol>
                 <BCol lg="12">
                     <hr class="text-muted mt-0 mb-3"/>
@@ -47,7 +47,7 @@
                     :searchable="true" label="name"
                     placeholder="Select Laboratory"/>
                 </BCol>
-                 <BCol lg="6" class="mt-n2">
+                <BCol lg="6" class="mt-n2">
                     <InputLabel for="region" value="Discount" :message="form.errors.discount_id"/>
                     <Multiselect 
                     :options="dropdowns.discounts" 
@@ -55,6 +55,15 @@
                     @input="handleInput('discount_id')"
                     :searchable="true" label="name"
                     placeholder="Select Discount"/>
+                </BCol>
+                <BCol lg="12" class="mt-1">
+                    <InputLabel for="region" value="Purpose" :message="form.errors.purpose_id"/>
+                    <Multiselect 
+                    :options="dropdowns.purposes" 
+                    v-model="form.purpose_id"
+                    @input="handleInput('purpose_id')"
+                    :searchable="true" label="name"
+                    placeholder="Select Purpose"/>
                 </BCol>
             </BRow>
         </form>
@@ -85,7 +94,8 @@ export default {
                 conforme: null,
                 laboratory_type: null,
                 purpose_id: null,
-                discount_id: null
+                discount_id: null,
+                purpose_id: null
             }),
             customers: [],
             conformes: [],
@@ -98,7 +108,7 @@ export default {
             this.showModal = true;
         },
         submit(){
-            this.form.post('/requests',{
+            this.form.post('/tsrs',{
                 preserveScroll: true,
                 onSuccess: (response) => {
                     this.$emit('success',this.$page.props.flash.data);

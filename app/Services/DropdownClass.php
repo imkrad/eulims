@@ -86,6 +86,16 @@ class DropdownClass
         return $data;
     }
 
+    public function purposes(){
+        $data = ListDropdown::where('classification','Purpose')->get()->map(function ($item) {
+            return [
+                'value' => $item->id,
+                'name' => $item->name
+            ];
+        });
+        return $data;
+    }
+
     public function laboratory_types(){
         $lab_id = ($this->ids) ? array_column($this->ids, 'value') : null;
         $query = ListLaboratory::query();
