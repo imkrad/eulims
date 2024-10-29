@@ -76,7 +76,7 @@
                         'bg-dark-subtle': selectedRow === index && list.status.name !== 'Completed' && !isDueApproaching(list.due_at, list.status.name) && !isOverdue(list.due_at),
                         'bg-success-subtle': list.status.name === 'Completed',
                         'bg-warning-subtle': isDueApproaching(list.due_at, list.status.name),
-                        'bg-danger-subtle': isOverdue(list.due_at)
+                        'bg-danger-subtle': isOverdue(list.due_at,list.status.name)
                 }">
                     <td class="text-center"> 
                         {{ (meta.current_page - 1) * meta.per_page + index + 1 }}.
@@ -116,6 +116,9 @@
                         <b-button v-if="list.status.name == 'Cancelled'" variant="soft-danger" v-b-tooltip.hover title="Reason" size="sm">
                             <i class="ri-error-warning-fill align-bottom"></i>
                         </b-button>
+                        <b-button v-if="list.status.name === 'Pending' || list.status.name === 'For Payment'" class="ms-1" @click="openEdit(list,index)" variant="soft-warning" v-b-tooltip.hover title="Edit" size="sm">
+                            <i class="ri-pencil-fill align-bottom"></i>
+                        </b-button>
                         <b-button v-if="list.status.name === 'Pending'" @click="openCancel(list,index)" variant="soft-danger" v-b-tooltip.hover title="Cancel" size="sm">
                             <i class="ri-delete-bin-2-fill align-bottom"></i>
                         </b-button>
@@ -125,16 +128,18 @@
         </table>
         <Pagination class="ms-2 me-2" v-if="meta" @fetch="fetch" :lists="lists.length" :links="links" :pagination="meta" />
     </div>
+    <Edit :dropdowns="dropdowns" ref="edit"/>
     <Create :dropdowns="dropdowns" @success="moveTo" ref="create"/>
     <Cancel @success="fetch()" ref="cancel"/>
 </template>
 <script>
 import _ from 'lodash';
+import Edit from '../Modals/Edit.vue';
 import Create from '../Modals/Create.vue';
 import Cancel from '../Modals/Cancel.vue';
 import Pagination from "@/Shared/Components/Pagination.vue";
 export default {
-    components: { Pagination, Create, Cancel },
+    components: { Pagination, Create, Cancel, Edit },
     props: ['dropdowns','counts'],
     data(){
         return {
@@ -230,6 +235,9 @@ export default {
         openCancel(data){
             this.$refs.cancel.show(data);
         },
+        openEdit(data){
+            this.$refs.edit.show(data);
+        },
         viewStatus(index,status){
             this.index = index;
             this.filter.status = status;
@@ -264,11 +272,13 @@ export default {
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             return diffDays <= 5 && diffDays >= 0; // True if due date is within 5 days
         },
-        isOverdue(dueDate) {
-            if (!dueDate) return false; // If no due date, return false
-            const today = new Date();
-            const due = new Date(dueDate);
-            return due <= today; // True if the due date is today or earlier (overdue)
+        isOverdue(dueDate,status) {
+            if(status != 'Completed'){
+                if (!dueDate) return false; // If no due date, return false
+                const today = new Date();
+                const due = new Date(dueDate);
+                return due <= today; // True if the due date is today or earlier (overdue)
+            }
         }
     }
 }

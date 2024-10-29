@@ -123,7 +123,7 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="menu-title">
+                    <li class="menu-title" v-if="$page.props.menus.operation2.length > 0">
                         <i class="ri-more-fill" aria-expanded="false"></i>
                         <span data-key="t-components">Functionalities</span>
                     </li>
@@ -144,7 +144,7 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="menu-title">
+                    <li class="menu-title" v-if="$page.props.menus.operation1.length > 0">
                         <i class="ri-more-fill" aria-expanded="false"></i>
                         <span data-key="t-components">Lists</span>
                     </li>
@@ -165,7 +165,7 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="menu-title">
+                    <li class="menu-title" v-if="$page.props.menus.operation3.length > 0">
                         <i class="ri-more-fill" aria-expanded="false"></i>
                         <span data-key="t-components">Others</span>
                     </li>

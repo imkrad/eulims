@@ -303,10 +303,10 @@ export default {
             this.$refs.service.show(this.selected.id);
         },
         openQr(data){
-            window.open('/requests?option=sampleqr&id='+data.id);
+            window.open('/samples?option=sampleqr&id='+data.id);
         },
         openAllQr(){
-            window.open('/requests?option=allsampleqr&id='+this.selected.qr);
+            window.open('/samples?option=allsampleqr&id='+this.selected.qr);
         },
         openDeleteSample(data){
             this.$refs.delete.show(data,this.selected.id,'sample');

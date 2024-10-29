@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class TsrAnalysis extends Model
 {
-    use HasFactory;
+    use HasFactory,LogsActivity;
 
     protected $fillable = [
         'status_id','analyst_id','sample_id','testservice_id','fee','start_at','end_at',
@@ -66,6 +68,17 @@ class TsrAnalysis extends Model
     public function getCreatedAtAttribute($value)
     {
         return date('M d, Y g:i a', strtotime($value));
+    }
+
+    public function getActivitylogOptions(): LogOptions {
+        return LogOptions::defaults()
+        ->logOnly( [
+          'status_id','analyst_id','sample_id','testservice_id','fee','start_at','end_at'
+        ])
+        ->setDescriptionForEvent(fn(string $eventName) => "{$eventName}")
+        ->useLogName('Sample')
+        ->logOnlyDirty()
+        ->dontSubmitEmptyLogs();
     }
 
 }

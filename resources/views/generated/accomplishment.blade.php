@@ -68,6 +68,7 @@
                     <th style="vertical-align: middle;" width="8%">OR Number</th>
                     <th style="vertical-align: middle;" width="8%">Subtotal</th>
                     <th style="vertical-align: middle;" width="8%">Discount</th>
+                    <th style="vertical-align: middle;" width="8%">Gratis</th>
                     <th style="vertical-align: middle;" width="8%">Total</th>
                 </tr>
             </thead>
@@ -98,6 +99,7 @@
                     <td>{{($list['payment']['or_number']) ? $list['payment']['or_number'] : '-'}}</td>
                     <td><span style="font-family: DejaVu Sans;">&#8369;</span>{{number_format(trim(str_replace(',','',$list['payment']['subtotal']),'₱ '),2,".",",")}}</td>
                     <td><span style="font-family: DejaVu Sans;">&#8369;</span>{{number_format(trim(str_replace(',','',$list['payment']['discount']),'₱ '),2,".",",")}}</td>
+                    <td><span style="font-family: DejaVu Sans;">&#8369;</span>{{($list['payment']['is_free'] != 1) ? '0.00' : number_format(trim(str_replace(',','',$list['payment']['discount']),'₱ '),2,".",",")}}</td>
                     <td><span style="font-family: DejaVu Sans;">&#8369;</span>{{number_format(trim(str_replace(',','',$list['payment']['total']),'₱ '),2,".",",")}}</td>
                 </tr>
             @endforeach
@@ -107,21 +109,25 @@
                     $totalSubtotal = 0;
                     $totalDiscount = 0;
                     $totalAmount = 0;
+                    $totalGratis = 0;
 
                     foreach ($lists as $list) {
                         $subtotal = str_replace(['₱ ', '₱', ',', ' '], '', $list['payment']['subtotal']);
                         $discount = str_replace(['₱ ', '₱', ',', ' '], '', $list['payment']['discount']);
                         $total = str_replace(['₱ ', '₱', ',', ' '], '', $list['payment']['total']);
+                        $gratis = ($list['payment']['is_free']) ? str_replace(['₱ ', '₱', ',', ' '], '', $list['payment']['discount']) : 0;
 
                         $totalSubtotal += floatval($subtotal);
                         $totalDiscount += floatval($discount);
                         $totalAmount += floatval($total);
+                        $totalGratis += floatval($gratis);
                     }
                 @endphp
                 <tr style="font-weight: bold; text-align: center;">
                     <td colspan="4"></td>
                     <td><span style="font-family: DejaVu Sans;">&#8369;</span>{{ number_format($totalSubtotal, 2, ".", ",") }}</td>
                     <td><span style="font-family: DejaVu Sans;">&#8369;</span>{{ number_format($totalDiscount, 2, ".", ",") }}</td>
+                    <td><span style="font-family: DejaVu Sans;">&#8369;</span>{{ number_format($totalGratis, 2, ".", ",") }}</td>
                     <td><span style="font-family: DejaVu Sans;">&#8369;</span>{{ number_format($totalAmount, 2, ".", ",") }}</td>
                 </tr>
             </tfoot>

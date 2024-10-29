@@ -8,14 +8,16 @@ use Illuminate\Http\Request;
 use App\Services\DropdownClass;
 use App\Services\Operation\Tsr\ViewClass;
 use App\Services\Operation\Tsr\SaveClass;
+use App\Services\Operation\Tsr\UpdateClass;
 use App\Http\Requests\Operation\TsrRequest;
 
 class TsrController extends Controller
 {
     use HandlesTransaction;
 
-    public function __construct(DropdownClass $dropdown, SaveClass $save, ViewClass $view){
+    public function __construct(DropdownClass $dropdown, SaveClass $save, ViewClass $view, UpdateClass $update){
         $this->dropdown = $dropdown;
+        $this->update = $update;
         $this->save = $save;
         $this->view = $view;
     }
@@ -56,6 +58,23 @@ class TsrController extends Controller
             return $this->save->save($request);
         });
 
+        return back()->with([
+            'data' => $result['data'],
+            'message' => $result['message'],
+            'info' => $result['info'],
+            'status' => $result['status'],
+        ]);
+    }
+
+    public function update(TsrRequest $request){
+        $result = $this->handleTransaction(function () use ($request) {
+            switch($request->option){
+                case 'Confirm':
+                    return $this->update->confirm($request);
+                break;
+            }
+        });
+        
         return back()->with([
             'data' => $result['data'],
             'message' => $result['message'],

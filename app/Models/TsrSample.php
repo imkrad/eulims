@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class TsrSample extends Model
 {
-    use HasFactory;
+    use HasFactory,LogsActivity;
 
     protected $fillable = [
         'code',
@@ -52,5 +54,21 @@ class TsrSample extends Model
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = $value;
+    }
+
+    public function getActivitylogOptions(): LogOptions {
+        return LogOptions::defaults()
+        ->logOnly( [
+            'name',
+            'customer_description',
+            'description',
+            'is_disposed',
+            'is_completed',
+            'tsr_id',
+        ])
+        ->setDescriptionForEvent(fn(string $eventName) => "{$eventName}")
+        ->useLogName('Sample')
+        ->logOnlyDirty()
+        ->dontSubmitEmptyLogs();
     }
 }

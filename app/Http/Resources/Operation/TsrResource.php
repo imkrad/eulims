@@ -39,6 +39,7 @@ class TsrResource extends JsonResource
             'customer' => new CustomerResource($this->customer),
             'payment' => $this->payment,
             'due_at' => $this->due_at,
+            'purpose' => $this->purpose,
             'analyses' => $analyses,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,

@@ -79,12 +79,12 @@ export default {
             this.showModal = true;
         },
         submit(){
-            this.form.put('/requests/update',{
+            this.form.put('/tsrs/update',{
                 preserveScroll: true,
                 onSuccess: (response) => {
                     this.$emit('selected',response.props.flash.data.data);
                     this.hide();
-                    window.open('/requests?option=allsampleqr&id='+response.props.flash.data.data.qr);
+                    window.open('/samples?option=allsampleqr&id='+response.props.flash.data.data.qr);
                 },
             });
         },

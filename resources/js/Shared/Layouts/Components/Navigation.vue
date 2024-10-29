@@ -415,7 +415,7 @@ export default {
                 <img class="rounded-circle header-profile-user" :src="$page.props.user.data.avatar" :alt="$page.props.user.data.username">
                 <span class="text-start ms-xl-2">
                   <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ $page.props.user.data.name }}</span>
-                  <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">{{ $page.props.user.data.role }}</span>
+                  <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">{{ ($page.props.user.data.role == 'Administrator') ? $page.props.user.data.role : $page.props.user.data.assigned_role }}</span>
                 </span>
               </span>
             </template>

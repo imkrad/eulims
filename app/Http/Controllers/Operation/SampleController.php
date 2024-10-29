@@ -16,6 +16,17 @@ class SampleController extends Controller
         $this->sample = $sample;
     }
 
+    public function index(Request $request){
+        switch($request->option){
+            case 'sampleqr':
+                return $this->sample->qr($request);
+            break;
+            case 'allsampleqr':
+                return $this->sample->allqr($request);
+            break;
+        }
+    }
+
     public function store(SampleRequest $request){
         $result = $this->handleTransaction(function () use ($request) {
             switch($request->option){

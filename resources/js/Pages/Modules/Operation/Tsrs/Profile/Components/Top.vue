@@ -35,13 +35,13 @@
                                 <b-button v-if="selected.status.name === 'Pending'" :disabled="(analyses == 0) ? true : false" @click="openSave(selected.id)" variant="primary" v-b-tooltip.hover title="Save">
                                     <i class="ri-save-fill align-bottom"></i> Save
                                 </b-button>
-                                 <b-button v-if="selected.status.name === 'For Payment' && selected.customer.wallet != null && selected.customer.wallet.available != '₱0.00'" @click="openWallet(selected.id,selected.customer,selected.payment)" variant="primary" v-b-tooltip.hover title="Payment">
+                                <b-button v-if="selected.status.name === 'For Payment' && selected.customer.wallet != null && selected.customer.wallet.available != '₱0.00'" @click="openWallet(selected.id,selected.customer,selected.payment)" variant="primary" v-b-tooltip.hover title="Payment">
                                     <i class="ri-wallet-fill align-bottom"></i> Use Wallet
                                 </b-button>
                                 <b-button v-if="selected.status.name !== 'Pending'" @click="openPrint(selected.qr)" variant="primary" v-b-tooltip.hover title="Print">
                                     <i class="ri-printer-fill"></i>
                                 </b-button>
-                                <Link href="/requests">
+                                <Link href="/tsrs">
                                     <b-button variant="soft-danger">
                                         <i class="ri-close-circle-fill align-bottom"></i> 
                                     </b-button>
@@ -71,7 +71,7 @@ export default {
             this.$refs.wallet.show(id,customer,payment);
         },
         openPrint(id){
-            window.open('/requests?option=print&id='+id);
+            window.open('/tsrs?option=print&id='+id);
         },
     }
 }

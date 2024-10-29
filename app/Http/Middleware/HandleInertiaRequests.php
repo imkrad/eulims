@@ -19,129 +19,167 @@ class HandleInertiaRequests extends Middleware
     }
 
     public function share(Request $request): array
-    {
+    {   
         $currentRole = (\Auth::check()) ? \Auth::user()->role : null;
 
-        $lists = ListMenu::where('is_mother',1)->where('module','Executive')->where('is_active',1)->orderBy('order','ASC')->get();
-        foreach($lists as $list){
-            $submenus = [];
-            if($list['has_child']){
-                $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
-                foreach($subs as $menu){
-                    $submenus[] = $menu;
+        if(\Auth::check()){
+            $lists = ListMenu::where('is_mother',1)->where('module','Executive')->where('is_active',1)->orderBy('order','ASC')->get();
+            foreach($lists as $list){
+                $submenus = [];
+                if($list['has_child']){
+                    $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
+                    foreach($subs as $menu){
+                        $submenus[] = $menu;
+                    }
                 }
+                $executive[] = [
+                    'main' => $list,
+                    'submenus' => $submenus
+                ];
             }
-            $executive[] = [
-                'main' => $list,
-                'submenus' => $submenus
-            ];
-        }
 
-        $lists = ListMenu::where('is_mother',1)->where('module','Reference')->where('group','Menu')->where('is_active',1)->orderBy('order','ASC')->get();
-        foreach($lists as $list){
-            $submenus = [];
-            if($list['has_child']){
-                $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
-                foreach($subs as $menu){
-                    $submenus[] = $menu;
+            $lists = ListMenu::where('is_mother',1)->where('module','Reference')->where('group','Menu')->where('is_active',1)->orderBy('order','ASC')->get();
+            foreach($lists as $list){
+                $submenus = [];
+                if($list['has_child']){
+                    $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
+                    foreach($subs as $menu){
+                        $submenus[] = $menu;
+                    }
                 }
+                $reference3[] = [
+                    'main' => $list,
+                    'submenus' => $submenus
+                ];
             }
-            $reference3[] = [
-                'main' => $list,
-                'submenus' => $submenus
-            ];
-        }
 
-        $lists = ListMenu::where('is_mother',1)->where('module','Reference')->where('group','List')->where('is_active',1)->orderBy('order','ASC')->get();
-        foreach($lists as $list){
-            $submenus = [];
-            if($list['has_child']){
-                $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
-                foreach($subs as $menu){
-                    $submenus[] = $menu;
+            $lists = ListMenu::where('is_mother',1)->where('module','Reference')->where('group','List')->where('is_active',1)->orderBy('order','ASC')->get();
+            foreach($lists as $list){
+                $submenus = [];
+                if($list['has_child']){
+                    $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
+                    foreach($subs as $menu){
+                        $submenus[] = $menu;
+                    }
                 }
+                $reference1[] = [
+                    'main' => $list,
+                    'submenus' => $submenus
+                ];
             }
-            $reference1[] = [
-                'main' => $list,
-                'submenus' => $submenus
-            ];
-        }
 
-        $lists = ListMenu::where('is_mother',1)->where('module','Reference')->where('group','Dropdowns')->where('is_active',1)->orderBy('order','ASC')->get();
-        foreach($lists as $list){
-            $submenus = [];
-            if($list['has_child']){
-                $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
-                foreach($subs as $menu){
-                    $submenus[] = $menu;
+            $lists = ListMenu::where('is_mother',1)->where('module','Reference')->where('group','Dropdowns')->where('is_active',1)->orderBy('order','ASC')->get();
+            foreach($lists as $list){
+                $submenus = [];
+                if($list['has_child']){
+                    $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
+                    foreach($subs as $menu){
+                        $submenus[] = $menu;
+                    }
                 }
+                $reference2[] = [
+                    'main' => $list,
+                    'submenus' => $submenus
+                ];
             }
-            $reference2[] = [
-                'main' => $list,
-                'submenus' => $submenus
-            ];
-        }
 
-        $lists = ListMenu::where('is_mother',1)->where('module','Operation')->where('group','Menu')->where('is_active',1)->orderBy('order','ASC')->get();
-        foreach($lists as $list){
-            $submenus = [];
-            if($list['has_child']){
-                $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
-                foreach($subs as $menu){
-                    $submenus[] = $menu;
-                }
-            }
-            $operation[] = [
-                'main' => $list,
-                'submenus' => $submenus
-            ];
-        }
+            if($currentRole == 'Staff'){
+                $role = \Auth::user()->myrole->role->name;
+                if($role == 'Accountant'){
+                    $lists = ListMenu::where('is_mother',1)->where('module','Accounting')->where('is_active',1)->orderBy('order','ASC')->get();
+                    foreach($lists as $list){
+                        $submenus = [];
+                        if($list['has_child']){
+                            $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
+                            foreach($subs as $menu){
+                                $submenus[] = $menu;
+                            }
+                        }
+                        $operation[] = [
+                            'main' => $list,
+                            'submenus' => $submenus
+                        ];
+                    }
 
-        $lists = ListMenu::where('is_mother',1)->where('module','Operation')->where('group','Menu1')->where('is_active',1)->orderBy('order','ASC')->get();
-        foreach($lists as $list){
-            $submenus = [];
-            if($list['has_child']){
-                $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
-                foreach($subs as $menu){
-                    $submenus[] = $menu;
-                }
-            }
-            $operation1[] = [
-                'main' => $list,
-                'submenus' => $submenus
-            ];
-        }
+                    $operation1 = [];
+                    $operation2 = [];
+                    $operation3 = [];
 
-        $lists = ListMenu::where('is_mother',1)->where('module','Operation')->where('group','Menu2')->where('is_active',1)->orderBy('order','ASC')->get();
-        foreach($lists as $list){
-            $submenus = [];
-            if($list['has_child']){
-                $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
-                foreach($subs as $menu){
-                    $submenus[] = $menu;
-                }
-            }
-            $operation2[] = [
-                'main' => $list,
-                'submenus' => $submenus
-            ];
-        }
 
-        $lists = ListMenu::where('is_mother',1)->where('module','Operation')->where('group','Menu3')->where('is_active',1)->orderBy('order','ASC')->get();
-        foreach($lists as $list){
-            $submenus = [];
-            if($list['has_child']){
-                $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
-                foreach($subs as $menu){
-                    $submenus[] = $menu;
+                }else if($role == 'Cashier'){
+
+                }else{
+                    $lists = ListMenu::where('is_mother',1)->where('module','Operation')->where('group','Menu')->where('is_active',1)->orderBy('order','ASC')->get();
+                    foreach($lists as $list){
+                        $submenus = [];
+                        if($list['has_child']){
+                            $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
+                            foreach($subs as $menu){
+                                $submenus[] = $menu;
+                            }
+                        }
+                        $operation[] = [
+                            'main' => $list,
+                            'submenus' => $submenus
+                        ];
+                    }
+                
+                    $lists = ListMenu::where('is_mother',1)->where('module','Operation')->where('group','Menu1')->where('is_active',1)->orderBy('order','ASC')->get();
+                    foreach($lists as $list){
+                        $submenus = [];
+                        if($list['has_child']){
+                            $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
+                            foreach($subs as $menu){
+                                $submenus[] = $menu;
+                            }
+                        }
+                        $operation1[] = [
+                            'main' => $list,
+                            'submenus' => $submenus
+                        ];
+                    }
+
+                    $lists = ListMenu::where('is_mother',1)->where('module','Operation')->where('group','Menu2')->where('is_active',1)->orderBy('order','ASC')->get();
+                    foreach($lists as $list){
+                        $submenus = [];
+                        if($list['has_child']){
+                            $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
+                            foreach($subs as $menu){
+                                $submenus[] = $menu;
+                            }
+                        }
+                        $operation2[] = [
+                            'main' => $list,
+                            'submenus' => $submenus
+                        ];
+                    }
+
+                    $lists = ListMenu::where('is_mother',1)->where('module','Operation')->where('group','Menu3')->where('is_active',1)->orderBy('order','ASC')->get();
+                    foreach($lists as $list){
+                        $submenus = [];
+                        if($list['has_child']){
+                            $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
+                            foreach($subs as $menu){
+                                $submenus[] = $menu;
+                            }
+                        }
+                        $operation3[] = [
+                            'main' => $list,
+                            'submenus' => $submenus
+                        ];
+                    }
                 }
             }
-            $operation3[] = [
-                'main' => $list,
-                'submenus' => $submenus
-            ];
+        }else{
+            $executive = [];
+            $reference3 = [];
+            $reference1 = [];
+            $operation = [];
+            $operation1 = [];
+            $operation2 = [];
+            $operation3 = [];
         }
-       
+        
         return [
             ...parent::share($request),
             'user' => (\Auth::check()) ? new UserResource(User::with('profile')->where('id',\Auth::user()->id)->first()) : '',
