@@ -6,7 +6,7 @@ use App\Models\FinanceOp;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 
-class OpExport implements FromView
+class ReconciliationExport implements FromView
 {
     protected $month,$year;
 
@@ -21,7 +21,7 @@ class OpExport implements FromView
         ->with('payorable:id,name,name_id','payorable.customer_name:id,name')
         ->with('payment')
         ->with(['items' => function ($query) {
-            $query->with('itemable:id,code')->where('itemable_type', 'App\Models\Tsr');
+            $query->with('itemable:id,code','itemable.payment')->where('itemable_type', 'App\Models\Tsr');
         }, 'or:id,op_id,number','or.detail','or.wallet'])
         ->where('payorable_type', 'App\Models\Customer')
         ->where('status_id',7)
@@ -44,23 +44,28 @@ class OpExport implements FromView
                     $excess = '-';
                 }
             }
+            $total = 0;
+            foreach($row['items'] as $index=>$a){
+                $wew= trim(str_replace(',','',$a['itemable']['payment']['total']),'₱ ');
+                $total = $total + $wew;
+            }
 
             $ops[] = [
                 "date" => $row['created_at'],
                 "opnumber" => $row['code'],
                 "customer" => $customer,
                 "references" => $row['items'],
-                "payment" => $row['payment']['name'],
-                "opamount" => $row['total'],
                 "ornumber" => $row['or']['number'],
-                "excess" => $excess,
+                "rstlamount" => $total,
+                "opamount" => $row['total'],
                 "oramount" => $amount,
+                "excess" => $excess,
                 "created" => $created
             ];
         }
 
-        return view('exports.financeop', [
+        return view('exports.reconciliation', [
             'lists' => $ops
         ]);
-    }   
+    }
 }

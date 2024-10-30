@@ -107,7 +107,24 @@ class HandleInertiaRequests extends Middleware
 
 
                 }else if($role == 'Cashier'){
+                    $lists = ListMenu::where('is_mother',1)->where('module','Cashiering')->where('is_active',1)->orderBy('order','ASC')->get();
+                    foreach($lists as $list){
+                        $submenus = [];
+                        if($list['has_child']){
+                            $subs = ListMenu::where('is_active',1)->where('group',$list['name'])->get();
+                            foreach($subs as $menu){
+                                $submenus[] = $menu;
+                            }
+                        }
+                        $operation[] = [
+                            'main' => $list,
+                            'submenus' => $submenus
+                        ];
+                    }
 
+                    $operation1 = [];
+                    $operation2 = [];
+                    $operation3 = [];
                 }else{
                     $lists = ListMenu::where('is_mother',1)->where('module','Operation')->where('group','Menu')->where('is_active',1)->orderBy('order','ASC')->get();
                     foreach($lists as $list){

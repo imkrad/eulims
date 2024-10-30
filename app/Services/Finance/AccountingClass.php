@@ -5,8 +5,9 @@ namespace App\Services\Finance;
 use App\Models\Target;
 use App\Models\Configuration;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\OrExport;
+use App\Exports\RSTLExport;
 use App\Exports\OpExport;
+use App\Exports\ReconciliationExport;
 
 class AccountingClass
 {
@@ -24,22 +25,37 @@ class AccountingClass
     public function report($request){
         switch($request->subtype){
             case 'pdf':
-                $this->pdf($request);
+                return $this->pdf($request);
             break;
             case 'excel':
-                $this->excel($request);
+                return $this->excel($request);
             break;
         }
     }
 
     private function pdf($request){
+        $month = ($request->month) ? \DateTime::createFromFormat('F', $request->month)->format('m') : date('m');  
+        $year = ($request->year) ? $request->year : date('Y');
+        
+        if($request->type == 'op'){
 
+        }else if($request->type == 'rstl'){
+
+        }else{
+
+        }
     }
 
     private function excel($request){
         $month = ($request->month) ? \DateTime::createFromFormat('F', $request->month)->format('m') : date('m');  
         $year = ($request->year) ? $request->year : date('Y');
 
-        return Excel::download(new OpExport($month,$year), 'op.xlsx');
+        if($request->type == 'op'){
+            return Excel::download(new OpExport($month,$year), 'opor.xlsx');
+        }else if($request->type == 'rstl'){
+            return Excel::download(new RSTLExport($month,$year), 'rstl.xlsx');
+        }else{
+            return Excel::download(new ReconciliationExport($month,$year), 'reconciliation.xlsx');
+        }
     }
 }

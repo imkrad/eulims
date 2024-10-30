@@ -23,6 +23,38 @@ class DropdownClass
         $this->ids =(\Auth::check()) ? (\Auth::user()->role == 'Administrator') ? [] : json_decode(Configuration::where('laboratory_id',$this->laboratory)->value('laboratories')) : '';
     }
 
+    public function collections($type){
+        $data = ListDropdown::where('classification','Collection Type')->where('type',$type)->get()->map(function ($item) {
+            return [
+                'value' => $item->id,
+                'name' => $item->name
+            ];
+        });
+        return $data;
+    }
+    
+    public function payment_modes(){
+        $data = ListDropdown::where('classification','Payment Mode')->where('type','n/a')->where('is_active',1)->get()->map(function ($item) {
+            return [
+                'value' => $item->id,
+                'name' => $item->name,
+                'others' => $item->others
+            ];
+        });
+        return $data;
+    }
+
+    public function payment_statuses(){
+        $data = ListStatus::where('type','Payment')->get()->map(function ($item) {
+            return [
+                'value' => $item->id,
+                'name' => $item->name
+            ];
+        });
+        return $data;
+    }
+
+
     public function laboratories(){
         $data = Laboratory::with('member')->where('is_active',1)->get()->map(function ($item) {
             return [

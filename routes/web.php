@@ -23,6 +23,9 @@ Route::middleware(['2fa','auth','verified','is_active','menu'])->group(function 
     Route::resource('/analyses', App\Http\Controllers\Operation\AnalysisController::class);
     Route::resource('/tagging', App\Http\Controllers\Operation\TaggingController::class);
     Route::resource('/reports', App\Http\Controllers\Operation\ReportController::class);
+
+    Route::resource('/orderofpayments', App\Http\Controllers\Finance\OpController::class);
+    Route::resource('/receipts', App\Http\Controllers\Finance\OrController::class);
 });
 
 require __DIR__.'/auth.php';

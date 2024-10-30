@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\DropdownClass;
+use App\Services\Dashboard\AccountantClass;
 
 class DashboardController extends Controller
 {
-    public function __construct(DropdownClass $dropdown){
+    public function __construct(DropdownClass $dropdown, AccountantClass $accountant){
         $this->dropdown = $dropdown;
+        $this->accountant = $accountant;
     }
 
     public function index(Request $request){
@@ -18,7 +20,22 @@ class DashboardController extends Controller
             if(\Auth::user()->role === 'Administrator'){
                 return inertia('Modules/Executive/Dashboard/Index');
             }else{
-                return inertia('Modules/Operation/Dashboard/CRO/Index');
+                $role = \Auth::user()->myrole->role->name;
+                switch($role){
+                    case 'Accountant':
+                        return inertia('Modules/Finance/Accounting/Dashboard/Index',[
+                            'dropdowns' => [
+                                'counts' => $this->accountant->counts($request),
+                                'collections' => $this->dropdown->collections('Laboratory'),
+                                'payments' => $this->dropdown->payment_modes(),
+                                'tsrs' => $this->accountant->forpayment($request),
+                            ]
+                        ]);
+                    break;
+                    default: 
+                    return inertia('Modules/Operation/Dashboard/CRO/Index');
+                }
+                
             }
         }
     }

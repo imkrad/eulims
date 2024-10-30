@@ -19,9 +19,14 @@ class FinanceReceipt extends Model
         'is_deposited'
     ];
     
+    // public function wallet()
+    // {
+    //     return $this->hasMany('App\Models\WalletTransaction', 'receipt_id');
+    // }
+
     public function wallet()
     {
-        return $this->hasMany('App\Models\WalletTransaction', 'receipt_id');
+        return $this->morphOne('App\Models\WalletTransaction', 'transacable');
     }
 
     public function detail()
